@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
-  before_action :authenticate_portfolio
+  before_action :authenticate_portfolio, only: [:portfolio]
 
   def portfolio
     user = User.find(params[:id])
     @tracked_stocks = user.stocks
+  end
+
+  def friends
+    
   end
 
   private
