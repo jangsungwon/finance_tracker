@@ -7,7 +7,11 @@ class UsersController < ApplicationController
   end
 
   def friends
-    
+    @friends = current_user.friends
+  end
+
+  def search
+    render json: params[:friend]
   end
 
   private

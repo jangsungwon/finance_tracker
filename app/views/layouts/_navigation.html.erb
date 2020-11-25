@@ -17,12 +17,12 @@
               My friends
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to 'Friends list', friends_path, class: 'dropdown-item' %>
+              <div class="dropdown-divider"></div>
               <% current_user.friends.each do |friend| %>
                 <%= link_to portfolio_path(id:friend.id), class: 'dropdown-item' do %>
                   <%= fa_icon 'user' %> <%= friend.full_name %>
                 <% end %>
-              <div class="dropdown-divider"></div>
-              <%= link_to 'Friends list', friends_path, class: 'dropdown-item' %>
               <% end %>
 
           <li class="nav-item dropdown">
