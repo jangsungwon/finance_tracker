@@ -11,13 +11,30 @@ class UsersController < ApplicationController
   end
 
   def search
-    render json: params[:friend]
+    if params[:friend].present?
+      @friend = params[:friend]
+      if @friend
+        respond_to do |format|
+          format.js { render partial: 'users/friend_result' }
+        end
+      else
+        respond_to do |format|
+          flash.now[:alert] = "Couldn't find user"
+          format.js { render partial: 'users/friend_result' }
+        end
+      end
+    else
+      respond_to do |format|
+        flash.now[:alert] = "Please enter a friend name or email to search"
+        format.js { render partial: 'users/friend_result' }
+      end
+    end
   end
 
   private
 
   def authenticate_portfolio
-    if params[:id].to_i != current_user.id && !current_user.friends.ids.include?(params[:id].to_i)
+    if (params[:id].to_i != current_user.id && !current_user.friends.ids.include?(params[:id].to_i))
       flash[:alert] = "You are not allowed to access"
       redirect_to root_path
     end
