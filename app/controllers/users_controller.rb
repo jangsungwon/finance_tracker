@@ -1,5 +1,18 @@
 class UsersController < ApplicationController
-  def my_portfolio
-    @tracked_stocks = current_user.stocks
+  before_action :authenticate_portfolio
+
+  def portfolio
+    user = User.find(params[:id])
+    @tracked_stocks = user.stocks
   end
+
+  private
+
+  def authenticate_portfolio
+    if params[:id].to_i != current_user.id && !current_user.friends.ids.include?(params[:id].to_i)
+      flash[:alert] = "You are not allowed to access"
+      redirect_to root_path
+    end
+  end
+
 end
